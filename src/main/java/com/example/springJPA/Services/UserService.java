@@ -30,12 +30,12 @@ public class UserService {
     UserRepository userRepository;
     UserMapper userMapper;
 
-    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')")
     public List<UserResponse> getAll() {
         return userMapper.toListUserResponse(userRepository.findAll());
     }
 
-    @PostAuthorize("returnObject.username == authentication.name")
+//    @PostAuthorize("returnObject.username == authentication.name")
     public UserResponse getById(String userId) {
         return userMapper.toUserResponse(userRepository.findById(userId).orElseThrow(() -> new ApplicationRuntimeException(ErrorCode.USER_NOT_EXISTED)));
     }
@@ -56,7 +56,7 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         HashSet<String> roles = new HashSet<>();
         roles.add(Role.USER.name());
-        user.setRoles(roles);
+//        user.setRoles(roles);
         return userMapper.toUserResponse(userRepository.save(user));
     }
 

@@ -1,5 +1,6 @@
 package com.example.springJPA.DTOs.response;
 
+import com.example.springJPA.Models.Role;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -18,5 +19,5 @@ public class UserResponse {
     String firstname;
     String lastname;
     LocalDate dob;
-    Set<String> roles;
+    Set<Role> roles;
 }

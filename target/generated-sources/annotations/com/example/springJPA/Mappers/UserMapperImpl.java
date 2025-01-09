@@ -3,11 +3,11 @@ package com.example.springJPA.Mappers;
 import com.example.springJPA.DTOs.request.Request_UserCreate;
 import com.example.springJPA.DTOs.request.Request_UserUpdate;
 import com.example.springJPA.DTOs.response.UserResponse;
+import com.example.springJPA.Models.Role;
 import com.example.springJPA.Models.User;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 
@@ -49,9 +49,9 @@ public class UserMapperImpl implements UserMapper {
         userResponse.firstname( user.getFirstname() );
         userResponse.lastname( user.getLastname() );
         userResponse.dob( user.getDob() );
-        Set<String> set = user.getRoles();
-        if ( set != null ) {
-            userResponse.roles( new LinkedHashSet<String>( set ) );
+        List<Role> list = user.getRoles();
+        if ( list != null ) {
+            userResponse.roles( new LinkedHashSet<Role>( list ) );
         }
 
         return userResponse.build();
