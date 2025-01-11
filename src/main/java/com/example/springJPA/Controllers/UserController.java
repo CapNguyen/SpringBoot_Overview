@@ -36,9 +36,11 @@ public class UserController {
 
     @GetMapping("{userId}")
     public ApiResponse<UserResponse> getUsers(@PathVariable("userId") String userId) {
-//        ApiResponse<UserResponse> apiResponse = new ApiResponse<>();
-//        apiResponse.setResult(userService.getById(userId));
-//        return apiResponse;
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        log.info("Username: {}", authentication.getName());
+        authentication.getAuthorities().forEach(grantedAuthority -> log.info(grantedAuthority.getAuthority()));
+
         return ApiResponse.<UserResponse>builder()
                 .result(userService.getMyInfo())
                 .build();
@@ -67,8 +69,9 @@ public class UserController {
 
     @DeleteMapping("/{userId}")
     public ApiResponse deleteUser(@PathVariable("userId") String userId) {
-        ApiResponse apiResponse = new ApiResponse();
-        apiResponse.setMessage("User has been deleted");
-        return apiResponse;
+        userService.Delete(userId);
+        return ApiResponse.<String>builder()
+                .result("User has been deleted")
+                .build();
     }
 }

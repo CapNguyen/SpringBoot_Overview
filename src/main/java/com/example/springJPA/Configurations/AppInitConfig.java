@@ -29,7 +29,7 @@ public class AppInitConfig {
             if (userRepository.findByUsername("admin").isEmpty()) {
                 User u = User.builder()
                         .username("admin")
-                        .password(passwordEncoder.encode("admin"))
+                        .password(passwordEncoder.encode("admin123@"))
 //                        .roles(roles)
                         .build();
                 userRepository.save(u);

@@ -8,6 +8,7 @@ import com.example.springJPA.Exceptions.ApplicationRuntimeException;
 import com.example.springJPA.Exceptions.ErrorCode;
 import com.example.springJPA.Mappers.UserMapper;
 import com.example.springJPA.Models.User;
+import com.example.springJPA.Repositories.RoleRepository;
 import com.example.springJPA.Repositories.UserRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -27,10 +28,12 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 //Last 2 annotations do dependency injection ( replace for @Autowired)
 public class UserService {
+    RoleRepository roleRepository;
     UserRepository userRepository;
     UserMapper userMapper;
 
-//    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasAuthority('VIEW_DATA')")
     public List<UserResponse> getAll() {
         return userMapper.toListUserResponse(userRepository.findAll());
     }
@@ -66,6 +69,10 @@ public class UserService {
                 .orElseThrow(() -> new ApplicationRuntimeException(ErrorCode.USER_NOT_EXISTED));
         userMapper.updateUser(user, request);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
+
+        var roles= roleRepository.findAllById(request.getRoles());
+        user.setRoles(new HashSet<>(roles));
+
         userRepository.save(user);
         return userMapper.toUserResponse(user);
     }

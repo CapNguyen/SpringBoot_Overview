@@ -7,16 +7,19 @@ import com.example.springJPA.Models.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
-import java.util.*;
+
+import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
-//    @Mapping(source = "firstname", target = "lastname")
+    //    @Mapping(source = "firstname", target = "lastname")
     User toUser(Request_UserCreate request);
-//    @Mapping(target = "lastname", ignore=true)
+
+    //    @Mapping(target = "lastname", ignore=true)
     UserResponse toUserResponse(User user);
 
     List<UserResponse> toListUserResponse(List<User> users);
 
+    @Mapping(target = "roles", ignore = true)
     void updateUser(@MappingTarget User user, Request_UserUpdate request);
 }
